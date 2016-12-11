@@ -1,11 +1,14 @@
 #!/bin/bash
 
-cid=$(docker ps -aq -f name=dl)
+CNAME="dl-ao"
+cid=$(docker ps -aq -f name=${CNAME})
 
 if [ ! -z $cid ]; then
-  docker stop dl
-  docker rm dl
+  docker stop ${cid}
+  docker rm ${cid}
 fi
 
-docker run -d --name dl -p 7778:7778 -v ~/HackMode/dl-stuff:/home/dev/dl-stuff guangyang/dl-box
+DL_PATH=$(pwd)
+
+docker run -d --name ${CNAME} -p 7778:7778 -v ${DL_PATH}:/home/dev/dl-stuff guangyang/dl-box
 
